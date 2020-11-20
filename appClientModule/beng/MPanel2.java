@@ -27,11 +27,11 @@ public class MPanel2 {
         jf.setContentPane(jp1);
         jf.setVisible(true);
         JIntellitype.getInstance().registerSwingHotKey(0, 0, 113);
-
+        JIntellitype.getInstance().registerSwingHotKey(1, 0, 114);
         JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
             @Override
             public void onHotKey(int markCode) {
-                System.out.println(new Date().toString() + markCode);
+                System.out.println(new Date().toString()+"==" + markCode);
                 if (action) {
                     action = false;
                     System.out.println("按键关闭");

@@ -14,6 +14,7 @@ import javax.swing.WindowConstants;
 import static beng.As.FUNC_KEY_MARK;
 
 public class MPanel {
+    Map map = new LinkedHashMap();
     public void run() {
         JFrame jf = new JFrame();
         jf.setTitle("蹦蹦辅助");
@@ -49,7 +50,6 @@ public class MPanel {
     Robot robot;
     boolean action = false;
     int temp = 0;
-
     {
         try {
             robot = new Robot();
