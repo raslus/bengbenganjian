@@ -1,21 +1,28 @@
 package beng;
 
-import java.awt.*;
-import java.util.Date;
-
-import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
-import static beng.As.FUNC_KEY_MARK;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MPanel {
-    Map map = new LinkedHashMap();
-    public void run() {
+    Map<String, Object> map = new LinkedHashMap();
+
+    {
+        map.put("action",false);
+        map.put("robot", -1);
+        try {
+            robot = new Robot();
+
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void run(){
         JFrame jf = new JFrame();
         jf.setTitle("蹦蹦辅助");
         jf.setSize(250, 250);
@@ -23,46 +30,70 @@ public class MPanel {
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JPanel jp1 = new JPanel();
         jp1.setLayout(new GridLayout(3, 3));
-        JButton btn = new JButton("测试按钮");
+        JButton btn = new JButton("按钮");
         jp1.add(btn);
         jf.setContentPane(jp1);
         jf.setVisible(true);
         for (KeyEnum a : KeyEnum.values()) {
-            JIntellitype.getInstance().registerSwingHotKey(a.getVal(), 0, a.getUpVal());
+            JIntellitype.getInstance().registerSwingHotKey(a.getUpVal(), 0, a.getUpVal());
+            JIntellitype.getInstance().registerHotKey(-1, InputEvent.ALT_MASK, a.getUpVal());
         }
-        JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
-            @Override
-            public void onHotKey(int markCode) {
-            	System.out.println(new Date().toString() +markCode);
-				if (action) {
-                    action = false;
-                    System.out.println("按键关闭");
-                } else {
-                    action = temp != markCode;
-                    temp = markCode;
-                    System.out.println("案件开启");
-                }
-				robotKey(markCode);
+
+        JIntellitype.getInstance().addHotKeyListener(markCode -> {
+            map.put("robot", markCode);
+            System.out.println("robot==" + map.get("robot"));
+            if (markCode==0) {
+                action = false;
+                System.out.println("关闭");
+            } else {
+                action = true;
+                System.out.println("开启");
             }
+//                }
         });
+        robot();
     }
 
     Robot robot;
     boolean action = false;
-    int temp = 0;
-    {
-        try {
-            robot = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
+
+
+
+    void robot(){
+        while(true){
+            int key = (int) map.get("robot");
+            if(key!=-1){
+                System.out.println("触发按键");
+                robot.keyPress(key);
+                robot.delay(500);
+                robot.keyRelease(key);
+                System.out.println(key);
+            }
+
         }
     }
+    public void robotReady() throws InterruptedException {
+        do {
+            System.out.println((int) map.get("robot"));
+            if ((int) map.get("robot") != -1) {
+                robotAct();
+            }
+            Thread.sleep(500);
+        } while ((int) map.get("robot") == -1);
+    }
 
-    private void robotKey(int markCode) {
-		do {
-			robot.keyPress(markCode);
-			System.out.println(markCode);
-			robot.delay(500);
-		}while (action);
+    public void robotAct() throws InterruptedException {
+        int markCode = -1;
+        do {
+            markCode = (int) map.get("robot");
+            robot.keyPress(markCode);
+
+            System.out.println("按下" + markCode);
+            robot.delay(500);
+            System.out.println("抬起" + markCode);
+            if (markCode == -1) {
+                robotReady();
+            }
+        } while (markCode != -1);
     }
 }
