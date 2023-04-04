@@ -14,13 +14,19 @@ public class catJumpGui {
     private JButton 修改Button;
 
     public catJumpGui() {
-        新增Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(boot,actionEvent.getActionCommand()+"点击");
-                String[] a = {"10"};
-                测试list.setListData(a);
-            }
+        新增Button.addActionListener(actionEvent -> {
+//                JOptionPane.showMessageDialog(boot,actionEvent.getActionCommand()+"点击");
+            String[] a = {"10"};
+            测试list.setListData(a);
+            JFrame catJumpGui2 = new JFrame("配置信息");
+            catJumpGui2.setContentPane(new catJumpGui2().conf);
+            catJumpGui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            catJumpGui2.setSize(600,400);
+            catJumpGui2.setVisible(true);
+            catJumpGui2.setAlwaysOnTop(true);
+//            catJumpGui2.setAutoRequestFocus(true);
+            boot.setEnabled(false);
+
         });
     }
 
@@ -30,6 +36,7 @@ public class catJumpGui {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.pack();
         frame.setSize(800,400);
+
         frame.setVisible(true);
     }
 
