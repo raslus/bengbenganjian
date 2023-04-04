@@ -1,9 +1,6 @@
 package beng;
 
 import java.awt.AWTException;
-import java.awt.Robot;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws AWTException, InterruptedException {
