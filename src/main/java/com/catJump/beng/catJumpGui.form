@@ -74,7 +74,11 @@
                 <constraints/>
                 <properties>
                   <dropMode value="ON"/>
-                  <model/>
+                  <model>
+                    <item value="蹦蹦"/>
+                    <item value="肉肉"/>
+                    <item value="喇叭"/>
+                  </model>
                 </properties>
               </component>
             </children>
