@@ -14,6 +14,8 @@ public class catJumpGui {
     public catJumpGui() {
 //        String[] a = {"10"};
 //        测试list.setListData(a);
+        jx3HList.getInstance().initHlist();
+        测试list.setListData(jx3HList.getInstance().getHList().toArray());
         测试list.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -37,7 +39,7 @@ public class catJumpGui {
         }
         JFrame catJumpGui2 = new JFrame("配置信息");
         catJumpGui2.setContentPane(new catJumpGui2().conf);
-        catJumpGui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        catJumpGui2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         catJumpGui2.setSize(600,400);
         catJumpGui2.setVisible(true);
         catJumpGui2.setAlwaysOnTop(true);
